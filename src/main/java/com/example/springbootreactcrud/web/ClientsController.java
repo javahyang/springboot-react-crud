@@ -2,6 +2,7 @@ package com.example.springbootreactcrud.web;
 
 import com.example.springbootreactcrud.domain.client.Client;
 import com.example.springbootreactcrud.domain.client.ClientRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,15 @@ public class ClientsController {
     public ClientsController(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
+
+    @Value("${logging-module.version}")
+    private String version;
+
+    @GetMapping("/")
+    public String version() { return String.format("Project Version: %s", version); }
+
+    @GetMapping("/health")
+    public String checkHealth() { return "healthy"; }
 
     @GetMapping
     public List<Client> getClients() {
